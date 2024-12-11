@@ -1,4 +1,4 @@
-from library import Book, User, Library
+from library import Book, Student, Teacher, Library
 
 def main():
     library = Library()
@@ -8,15 +8,24 @@ def main():
     library.add_book(Book("To Kill a Mockingbird", "Harper Lee"))
 
     # Register users
-    user1 = User("Alice", 1)
-    user2 = User("Bob", 2)
-    library.register_user(user1)
-    library.register_user(user2)
+    student = Student("Alice", 1)
+    teacher = Teacher("Bob", 2)
+    library.register_user(student)
+    library.register_user(teacher)
 
     # Borrow books
-    book_to_borrow = library.find_book("1984", "George Orwell")
-    if book_to_borrow and user1.borrow_book(book_to_borrow):
-        print(f"{user1.name} successfully borrowed {book_to_borrow}")
+    book1 = library.find_book("1984", "George Orwell")
+    book2 = library.find_book("To Kill a Mockingbird", "Harper Lee")
+
+    print(f"\nBorrowing as a Student:")
+    if book1 and student.borrow_book(book1):
+        print(f"{student.name} successfully borrowed {book1}")
+    if book2 and student.borrow_book(book2):  # Should fail due to borrowing limit
+        print(f"{student.name} successfully borrowed {book2}")
+
+    print(f"\nBorrowing as a Teacher:")
+    if book2 and teacher.borrow_book(book2):
+        print(f"{teacher.name} successfully borrowed {book2}")
 
     # List available books
     print("\nAvailable books:")
@@ -24,8 +33,11 @@ def main():
         print(book)
 
     # Return books
-    if user1.return_book(book_to_borrow):
-        print(f"\n{user1.name} returned {book_to_borrow}")
+    print(f"\nReturning books:")
+    if student.return_book(book1):
+        print(f"{student.name} returned {book1}")
+    if teacher.return_book(book2):
+        print(f"{teacher.name} returned {book2}")
 
     # List available books again
     print("\nAvailable books after return:")
